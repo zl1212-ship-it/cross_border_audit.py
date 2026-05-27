@@ -57,7 +57,7 @@ with st.container():
         record_capacity = st.slider("Active Data Stream Sample Scale", 1000, 5000, 2500, step=500)
     with fc3:
         turnover_input = st.number_input("Registered Enterprise Global Turnover Baseline (USD)", value=500000000, step=50000000)
-    st.markdown("</div>", unsafe_with_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
 # Execute core algorithms under-the-hood seamlessly
 raw_data = generate_global_workforce_data(num_records=record_capacity, violation_severity=0.20)
