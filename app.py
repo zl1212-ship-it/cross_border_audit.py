@@ -14,7 +14,7 @@ st.markdown("""
     .status-violation { color: #EF4444; font-weight: bold; font-family: monospace; }
     .status-warning { color: #F59E0B; font-weight: bold; font-family: monospace; }
     </style>
-""", unsafe_with_html=True)
+""", unsafe_allow_html=True)
 
 # Main Application Frame Headers
 st.markdown("`SYSTEM STATUS: OPERATIONAL // DATA PIPELINE SECURE`")
@@ -36,24 +36,24 @@ audit_payload = engine.execute_complete_audit()
 # TOP ROW: Top-Tier High-Tech KPI Summary Blocks
 col1, col2, col3, col4 = st.columns(4)
 with col1:
-    st.markdown(f"<div class='kpi-card'><h5>TOTAL INGESTED RECORDS</h5><h2>{record_capacity:,}</h2><p style='color:#64748B;font-size:12px;'>Real-time streaming ledger nodes</p></div>", unsafe_with_html=True)
+    st.markdown(f"<div class='kpi-card'><h5>TOTAL INGESTED RECORDS</h5><h2>{record_capacity:,}</h2><p style='color:#64748B;font-size:12px;'>Real-time streaming ledger nodes</p></div>", unsafe_allow_html=True)
 with col2:
     eu_status = audit_payload.get("EU_AI_Act_2024", {}).get("Status", "VERIFIED COMPLIANT")
     cls = "status-compliant" if "COMPLIANT" in eu_status else "status-violation"
-    st.markdown(f"<div class='kpi-card'><h5>EU AI ACT STATUS</h5><h3 class='{cls}'>{eu_status}</h3><p style='color:#64748B;font-size:12px;'>Chapter III High-Risk Parameters</p></div>", unsafe_with_html=True)
+    st.markdown(f"<div class='kpi-card'><h5>EU AI ACT STATUS</h5><h3 class='{cls}'>{eu_status}</h3><p style='color:#64748B;font-size:12px;'>Chapter III High-Risk Parameters</p></div>", unsafe_allow_html=True)
 with col3:
     us_status = audit_payload.get("US_EEOC_4_5ths_Rule", {}).get("Status", "VERIFIED COMPLIANT")
     cls = "status-compliant" if "COMPLIANT" in us_status else "status-violation"
-    st.markdown(f"<div class='kpi-card'><h5>U.S. EEOC COMPLIANCE</h5><h3 class='{cls}'>{us_status}</h3><p style='color:#64748B;font-size:12px;'>Uniform Selection Discrimination Rate</p></div>", unsafe_with_html=True)
+    st.markdown(f"<div class='kpi-card'><h5>U.S. EEOC COMPLIANCE</h5><h3 class='{cls}'>{us_status}</h3><p style='color:#64748B;font-size:12px;'>Uniform Selection Discrimination Rate</p></div>", unsafe_allow_html=True)
 with col4:
     jp_status = audit_payload.get("Japan_METI_Society_5_0", {}).get("Status", "VERIFIED COMPLIANT")
     cls = "status-compliant" if "COMPLIANT" in jp_status else "status-warning"
-    st.markdown(f"<div class='kpi-card'><h5>METI SOVEREIGNTY INDEX</h5><h3 class='{cls}'>{jp_status}</h3><p style='color:#64748B;font-size:12px;'>Temporal Labor Exploitation Guardrails</p></div>", unsafe_with_html=True)
+    st.markdown(f"<div class='kpi-card'><h5>METI SOVEREIGNTY INDEX</h5><h3 class='{cls}'>{jp_status}</h3><p style='color:#64748B;font-size:12px;'>Temporal Labor Exploitation Guardrails</p></div>", unsafe_allow_html=True)
 
-st.markdown("<br>", unsafe_with_html=True)
+st.markdown("<br>", unsafe_allow_html=True)
 
 # MIDDLE ROW: Specialized Deep-Dive Operational Framework Tabs
-st.subheader("🕵️‍♂️ Sovereign Framework deep-Dive Verification Matrix")
+st.subheader("🕵️‍♂️ Sovereign Framework Deep-Dive Verification Matrix")
 tab1, tab2, tab3, tab4 = st.tabs(["🇺🇸 U.S. EEOC / LL144 Matrix", "🇪🇺 European Union AI Act", "🇯🇵 Japan METI Society 5.0", "🗄️ Sovereign Master Data Ledger"])
 
 with tab1:
