@@ -28,8 +28,9 @@ ENV PATH="/home/appuser/.local/bin:${PATH}"
 RUN pip install --no-cache-dir --user --upgrade pip \
     && pip install --no-cache-dir --user -r requirements.txt
 
-# Copy analytical engines into the workspace
-COPY cross_border_audit.py main.py /app/
+COPY cross_border_audit.py app.py /app/
 
-# Execute
-CMD ["python", "main.py"]
+# Expose Streamlit's default network port
+EXPOSE 8501
+
+CMD ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
