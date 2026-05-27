@@ -3,109 +3,122 @@ import pandas as pd
 import plotly.express as px
 from cross_border_audit import generate_global_workforce_data, GlobalComplianceAuditEngine
 
-# Injected 2026 High-Tech Neon Cyberpunk Structural CSS Overrides
-st.set_page_config(page_title="AETHER // TRANSNATIONAL GOV", page_icon="⚡", layout="wide")
+# Establish Light, High-Utility Theme Configuration
+st.set_page_config(page_title="CivicAI Auditor", page_icon="⚖️", layout="wide")
 st.markdown("""
     <style>
-    @import url('https://googleapis.com');
+    /* Premium Minimal Light-Themed System Canvas */
+    .stApp { background-color: #F8FAFC; color: #1E293B; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
     
-    /* Core Platform Structural Theme */
-    .stApp { background: #05070B; color: #E2E8F0; font-family: 'Space Grotesk', sans-serif; }
-    
-    /* Cyber Grid Matrix Header Cards */
-    .cyber-card { 
-        background: linear-gradient(135deg, #0D1321 0%, #080B14 100%); 
-        border-left: 4px solid #00F0FF; 
-        border-top: 1px solid #1E293B;
-        border-right: 1px solid #1E293B;
-        border-bottom: 1px solid #1E293B;
-        border-radius: 4px; padding: 24px; 
-        box-shadow: 0 8px 32px rgba(0, 240, 255, 0.03); 
+    /* Clean Content Containment Cards */
+    .gov-card {
+        background-color: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 12px;
+        padding: 24px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        margin-bottom: 20px;
     }
-    .cyber-card.violation { border-left-color: #FF0055; box-shadow: 0 8px 32px rgba(255, 0, 85, 0.03); }
-    .cyber-card.warning { border-left-color: #FFB800; box-shadow: 0 8px 32px rgba(255, 184, 0, 0.03); }
     
-    /* Technical Text Styling */
-    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; font-weight: 700; text-transform: uppercase; letter-spacing: -0.5px; }
-    code, .stMarkdown pre, p.mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #A0AEC0; }
+    /* Elegant Typography Alignment */
+    h1, h2, h3, h4 { color: #0F172A; font-weight: 600; letter-spacing: -0.025em; }
+    p, label { color: #475569 !important; font-size: 15px; }
     
-    /* Streamlit Interactive Component Adjustments */
-    .stTabs [data-baseweb="tab-list"] { gap: 8px; background-color: transparent; }
-    .stTabs [data-baseweb="tab"] { 
-        background-color: #0D1321; border: 1px solid #1E293B; color: #718096; 
-        border-radius: 4px; padding: 12px 24px; font-family: 'JetBrains Mono', monospace; 
-    }
-    .stTabs [aria-selected="true"] { background-color: #00F0FF !important; color: #05070B !important; font-weight: bold; }
+    /* Distinctive Clean Corporate Branding Component */
+    .logo-container { display: flex; align-items: center; gap: 12px; padding: 10px 0 25px 0; }
+    .logo-mark { background-color: #2563EB; color: white; padding: 8px 14px; border-radius: 8px; font-weight: bold; font-size: 20px; letter-spacing: 1px; }
+    .logo-text { font-size: 22px; font-weight: 700; color: #0F172A; }
+    
+    /* Unified Platform Status Highlights */
+    .badge-clear { background-color: #EFF6FF; color: #2563EB; font-weight: 600; padding: 6px 12px; border-radius: 6px; font-size: 13px; display: inline-block; }
+    .badge-alert { background-color: #FEF2F2; color: #DC2626; font-weight: 600; padding: 6px 12px; border-radius: 6px; font-size: 13px; display: inline-block; }
+    
+    /* Adjusting Native Streamlit Navigation Bar Elements */
+    .stTabs [data-baseweb="tab"] { color: #64748B; font-weight: 500; padding: 12px 20px; }
+    .stTabs [aria-selected="true"] { color: #2563EB !important; border-bottom-color: #2563EB !important; font-weight: 600; }
     </style>
 """, unsafe_allow_html=True)
 
-# Main Application System Stream Header
-st.markdown("<p class='mono' style='color:#00F0FF; margin-bottom:0;'>// CORE SECURE NODE_ NODE-ID: AETHER-UX-2026 // STATUS: ACTIVE</p>", unsafe_allow_html=True)
-st.title("⚡ AETHER // ALGORITHMIC GOVERNANCE AUDITOR")
-st.markdown("A cutting-edge sovereign risk workspace evaluating machine bias, tracking time precarity profiles, and enforcing cross-border legal compliance parameters.")
-st.markdown("---")
+# Distinctive UI Branding Block
+st.markdown("""
+    <div class='logo-container'>
+        <div class='logo-mark'>C</div>
+        <div class='logo-text'>CivicAI <span style='color:#64748B; font-weight:400; font-size:16px;'>| Government Oversight Portal</span></div>
+    </div>
+""", unsafe_allow_html=True)
 
-# Control Sidebar Configuration Block
-st.sidebar.markdown("### `// SET PARAMETERS`")
-record_capacity = st.sidebar.slider("TELEMETRY INGESTION CAPACITY", 1000, 10000, 3000, step=500)
-turnover_input = st.sidebar.number_input("GLOBAL ANNUAl TURNOVER (USD)", value=750000000, step=50000000)
-risk_weight = st.sidebar.slider("SIMULATED EXTRACTION INTENSITY", 0.05, 0.85, 0.35, step=0.05)
+# Horizontal Filter Navigation Array for Government Officials
+with st.container():
+    st.markdown("<div class='gov-card'>", unsafe_allow_html=True)
+    fc1, fc2, fc3 = st.columns(3)
+    with fc1:
+        target_company = st.selectbox("Select Regulated Enterprise Entity Target", ["All Registered Organizations", "AlphaLabs Intelligent Systems", "Horizon Automation Corp", "Nexus Predictive Tech"])
+    with fc2:
+        record_capacity = st.slider("Active Data Stream Sample Scale", 1000, 5000, 2500, step=500)
+    with fc3:
+        turnover_input = st.number_input("Registered Enterprise Global Turnover Baseline (USD)", value=500000000, step=50000000)
+    st.markdown("</div>", unsafe_with_html=True)
 
-# Execute Computational Analytics Engine Pipelines
-raw_data = generate_global_workforce_data(num_records=record_capacity, violation_severity=risk_weight)
+# Execute core algorithms under-the-hood seamlessly
+raw_data = generate_global_workforce_data(num_records=record_capacity, violation_severity=0.20)
 engine = GlobalComplianceAuditEngine(raw_data, turnover=turnover_input)
 audit_payload = engine.execute_complete_audit()
 
-# TOP ROW: Cyber High-Contrast KPI Cards
-c1, c2, c3, c4 = st.columns(4)
-with c1:
-    st.markdown(f"<div class='cyber-card'><code style='color:#00F0FF;'>[NODE_INGEST]</code><h5 style='margin:10px 0 5px 0;'>LEDGER TELEMETRY</h5><h2>{record_capacity:,}</h2></div>", unsafe_allow_html=True)
-with c2:
+# Metrics Row Overview Panels
+m1, m2, m3 = st.columns(3)
+with m1:
+    st.markdown("<div class='gov-card'>", unsafe_allow_html=True)
+    st.markdown("📈 **Total Evaluated Ingestion Ledger Records**")
+    st.subheader(f"{record_capacity:,}")
+    st.markdown("<span class='badge-clear'>Pipeline Active</span>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+    
+with m2:
+    st.markdown("<div class='gov-card'>", unsafe_allow_html=True)
+    st.markdown("🇪🇺 **EU AI Act Oversight Clearance Status**")
     eu_status = audit_payload.get("EU_AI_Act_2024", {}).get("Status", "VERIFIED COMPLIANT")
-    v_class = "violation" if "VIOLATION" in eu_status else ""
-    st.markdown(f"<div class='cyber-card {v_class}'><code style='color:#FF0055;'>[EU_AI_ACT]</code><h5 style='margin:10px 0 5px 0;'>EUROPEAN MATRIX</h5><h4>{eu_status}</h4></div>", unsafe_allow_html=True)
-with c3:
+    st.subheader("Action Required" if "VIOLATION" in eu_status else "Compliant")
+    badge = "badge-alert" if "VIOLATION" in eu_status else "badge-clear"
+    st.markdown(f"<span class='{badge}'>{eu_status}</span>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
+
+with m3:
+    st.markdown("<div class='gov-card'>", unsafe_allow_html=True)
+    st.markdown("🇺🇸 **U.S. EEOC Systemic Adverse Impact Metric**")
     us_status = audit_payload.get("US_EEOC_4_5ths_Rule", {}).get("Status", "VERIFIED COMPLIANT")
-    v_class = "violation" if "VIOLATION" in us_status else ""
-    st.markdown(f"<div class='cyber-card {v_class}'><code style='color:#00FF66;'>[US_EEOC]</code><h5 style='margin:10px 0 5px 0;'>DISCRIMINATION RISK</h5><h4>{us_status}</h4></div>", unsafe_allow_html=True)
-with c4:
-    jp_status = audit_payload.get("Japan_METI_Society_5_0", {}).get("Status", "VERIFIED COMPLIANT")
-    w_class = "warning" if "WARNING" in jp_status else ""
-    st.markdown(f"<div class='cyber-card {w_class}'><code style='color:#FFB800;'>[METI_S5]</code><h5 style='margin:10px 0 5px 0;'>TEMPORAL LABOR INDEX</h5><h4>{jp_status}</h4></div>", unsafe_allow_html=True)
+    st.subheader("Review Needed" if "VIOLATION" in us_status else "Passing")
+    badge = "badge-alert" if "VIOLATION" in us_status else "badge-clear"
+    st.markdown(f"<span class='{badge}'>{us_status}</span>", unsafe_allow_html=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
-st.markdown("<br><br>", unsafe_allow_html=True)
-
-# LOWER ROW: Tabbed Analytics Views
-st.subheader("`// AUDIT DISCOVERY TIERS`")
-tab1, tab2, tab3, tab4 = st.tabs(["[US_EEOC_BIAS]", "[EU_AI_OVERSIGHT]", "[JP_TIME_SOVEREIGNTY]", "[RAW_LEDGER_STREAM]"])
+# Content Discovery Navigation Tabs
+tab1, tab2, tab3 = st.tabs(["Compliance Scorecards", "Statistical Risk Maps", "Audit Source Data Ledger"])
 
 with tab1:
-    st.markdown("### Systemic Selection Trends Matrix")
-    metrics = audit_payload.get("US_EEOC_4_5ths_Rule", {})
-    ratios = metrics.get("Impact_Ratios", {})
-    chart_df = pd.DataFrame(list(ratios.items()), columns=["Demographic Group", "Selection Metric Ratio"])
-    
-    fig_us = px.bar(chart_df, x="Demographic Group", y="Selection Metric Ratio", color="Selection Metric Ratio", 
-                    color_continuous_scale=["#FF0055", "#00FF66"], template="plotly_dark")
-    fig_us.add_hline(y=0.8, line_dash="dash", line_color="#FF0055", annotation_text="EEOC Statuary Cutoff Threshold (0.80)")
-    st.plotly_chart(fig_us, use_container_width=True)
+    st.markdown("<div class='gov-card'>", unsafe_allow_html=True)
+    st.markdown("### Statutory Audit Documentation Matrix")
+    for rule, data in audit_payload.items():
+        st.markdown(f"#### {rule.replace('_', ' ')}")
+        st.markdown(f"**Legal Framework Reference Source:** {data['Statutory_Source']}")
+        st.json({k: v for k, v in data.items() if k not in ['Protocol', 'Statutory_Source', 'Status']})
+        st.markdown("---")
+    st.markdown("</div>", unsafe_allow_html=True)
 
 with tab2:
-    st.markdown("### Automated Accountability Framework Violations")
-    eu_metrics = audit_payload.get("EU_AI_Act_2024", {})
-    unmanaged = eu_metrics.get("Unmanaged_Autonomous_Records", 0)
-    liability = eu_metrics.get("Assessed_Statutory_Liability_USD", 0.0)
+    st.markdown("<div class='gov-card'>", unsafe_allow_html=True)
+    st.markdown("### Selection Index Disparities Chart")
+    metrics = audit_payload.get("US_EEOC_4_5ths_Rule", {})
+    ratios = metrics.get("Impact_Ratios", {})
+    chart_df = pd.DataFrame(list(ratios.items()), columns=["Demographic Group", "Calculated Ratio"])
     
-    ec1, ec2 = st.columns(2)
-    ec1.metric(label="Isolated Non-Compliant High-Risk Records", value=f"{unmanaged} Telemetry Hits")
-    ec2.metric(label="Calculated Liability Fine Ceiling (USD)", value=f"${liability:,.2f}")
+    # Render using the unified primary color strategy
+    fig = px.bar(chart_df, x="Demographic Group", y="Calculated Ratio", color_discrete_sequence=["#2563EB"], template="plotly_white")
+    fig.add_hline(y=0.8, line_dash="dash", line_color="#DC2626", annotation_text="EEOC Minimum Passing Index Limit (0.80)")
+    st.plotly_chart(fig, use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True)
 
 with tab3:
-    st.markdown("### Labor Extraction Curves & The 'Life Stall'")
-    fig_jp = px.violin(raw_data[raw_data["Jurisdiction"] == "Japan_HQ"], x="Gender", y="Uncompensated_Overtime_Hours", 
-                       color="Gender", box=True, points="all", template="plotly_dark", color_discrete_sequence=["#00F0FF", "#FF0055", "#FFB800"])
-    st.plotly_chart(fig_jp, use_container_width=True)
-
-with tab4:
-    st.markdown("### Ingested Data Stream Records")
+    st.markdown("<div class='gov-card'>", unsafe_allow_html=True)
+    st.markdown("### Comprehensive Regulatory Inspection Log Ledger")
     st.dataframe(raw_data, use_container_width=True)
+    st.markdown("</div>", unsafe_allow_html=True)
