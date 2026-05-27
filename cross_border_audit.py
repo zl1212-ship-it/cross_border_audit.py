@@ -1,16 +1,3 @@
-"""
-Quantum Governance System // Analytical Matrix Core Module
-=========================================================
-Author: Esa Liang (Primary Author)
-Affiliation: Center for Statistics and the Social Sciences (CS&SS), UW Seattle
-Repository: ://github.com
-
-Description:
-    Synthesizes multi-jurisdictional workforce tracking datasets and executes
-    deterministic policy validation matrices across conflicting US (EEOC), 
-    EU (AI Act), and Japanese (METI) regulatory baselines.
-"""
-
 import logging
 import numpy as np
 import pandas as pd
