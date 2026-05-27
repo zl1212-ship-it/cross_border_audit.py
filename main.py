@@ -3,10 +3,7 @@ from fastapi.security import OAuth2PasswordBearer
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, Field
 import os
-import uvloop
 import asyncio
-
-asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 ENV_STAGE = os.getenv("APP_ENV", "production")
 ALLOWED_HOST = os.getenv("API_GATEWAY_HOST", "api.governance.internal")
@@ -32,7 +29,6 @@ class EnterpriseAuditPayload(BaseModel):
     uncompensated_alignment_hours: float = Field(..., ge=0.0)
     total_contract_hours: float = Field(..., gt=0.0)
 
-# --- 2030 FUTURISTIC DASHBOARD HUD USER INTERFACE ---
 @app.get("/", response_class=HTMLResponse, tags=["Visual Interface Gateway"])
 async def render_futuristic_hud():
     """Renders a 2030 glassmorphic cybersecurity compliance heads-up-display."""
@@ -71,7 +67,6 @@ async def render_futuristic_hud():
         </style>
     </head>
     <body class="text-slate-200 min-h-screen p-8 flex flex-col justify-between">
-        <!-- Main Top Navigation Matrix Header -->
         <header class="w-full max-w-7xl mx-auto flex justify-between items-center border-b border-cyan-500/20 pb-4 mb-8">
             <div>
                 <h1 class="glow-text text-2xl font-bold tracking-widest text-cyan-400">QUANTUM_GOVERNANCE_ENGINE</h1>
@@ -83,9 +78,7 @@ async def render_futuristic_hud():
             </div>
         </header>
 
-        <!-- Dynamic Visual Data Telemetry Matrix Content Grid -->
         <main class="w-full max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch flex-grow">
-            <!-- Left Data Simulation Input Telemetry Node Control Column -->
             <section class="cyber-panel neon-border-pulse rounded-xl p-6 flex flex-col justify-between lg:col-span-1">
                 <div>
                     <h2 class="text-sm font-bold tracking-widest text-cyan-400 uppercase mb-6 border-b border-cyan-500/10 pb-2">// Control Vector Inputs</h2>
@@ -115,9 +108,7 @@ async def render_futuristic_hud():
                 <button class="w-full mt-6 bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 font-bold uppercase tracking-widest py-3 rounded shadow-lg shadow-cyan-500/20 transition-all font-mono">EXECUTE_AUDIT_SEQUENCE</button>
             </section>
 
-            <!-- Right Real-Time Matrix Compliance Scorecard Processing Output View Window -->
             <section class="lg:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- US Matrix Component Frame -->
                 <div class="cyber-panel rounded-xl p-5 flex flex-col justify-between">
                     <div>
                         <div class="flex justify-between items-start">
@@ -132,7 +123,6 @@ async def render_futuristic_hud():
                     <p class="text-xs text-slate-400 border-t border-cyan-500/10 pt-3 mt-4">Selection metric checks float comfortably within compliant boundaries.</p>
                 </div>
 
-                <!-- EU Matrix Component Frame -->
                 <div class="cyber-panel rounded-xl p-5 flex flex-col justify-between border-red-500/20 shadow-red-500/5">
                     <div>
                         <div class="flex justify-between items-start">
@@ -150,8 +140,14 @@ async def render_futuristic_hud():
                     </div>
                 </div>
 
-                <!-- Japan Matrix Component Frame -->
                 <div class="cyber-panel rounded-xl p-5 flex flex-col justify-between border-red-500/20 shadow-red-500/5">
                     <div>
                         <div class="flex justify-between items-start">
                             <h3 class="text-xs uppercase tracking-widest text-slate-400 font-bold">// Japan // METI</h3>
+                            <span class="px-2 py-0.5 text-[10px] font-mono font-bold bg-rose-500/10 text-rose-400 border border-rose-500/30 rounded">NON_COMPLIANT</span>
+                        </div>
+                        <div class="mt-4">
+                            <span class="text-xs text-slate-500 block uppercase tracking-wider">Temporal Sustainability Index</span>
+                            <span class="text-3xl font-mono font-bold text-rose-400 tracking-tight mt-1 block">0.8245</span>
+                        </div>
+                    </div>
