@@ -1,20 +1,49 @@
+"""
+Module: cross_border_audit
+Description: Enterprise-grade transnational algorithmic auditing engine.
+Author: Silicon Valley Core Systems Architect
+"""
+
 import logging
+from abc import ABC, abstractmethod
+from typing import Dict, Any, List, Optional
 import numpy as np
 import pandas as pd
 
-# Initialize zero-trust enterprise telemetry logging infrastructure
-logging.basicConfig(level=logging.INFO, format="%(asctime)s - [SECURE_NODE] - %(levelname)s - %(message)s")
-logger = logging.getLogger("QuantumGovernanceCore")
+# Global Infrastructure Telemetry Configuration
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s - [CORE_ENGINE] - %(levelname)s - [%(filename)s:%(lineno)d] - %(message)s"
+)
+logger = logging.getLogger("TransnationalComplianceCore")
 
-# =====================================================================
-# 1. SYNTHETIC MULTINATIONAL ARCHITECTURE GENERATION
-# =====================================================================
-def generate_global_workforce_data(num_records=2000):
+
+class AuditMetrics:
+    """Immutable data structure representing the standardized output of a regulatory audit."""
+    def __init__(self, protocol_name: str, statutory_source: str, status: str, metrics: Dict[str, Any]):
+        self.protocol_name = protocol_name
+        self.statutory_source = statutory_source
+        self.status = status
+        self.metrics = metrics
+
+    def to_dict(self) -> Dict[str, Any]:
+        return {
+            "Protocol": self.protocol_name,
+            "Statutory_Source": self.statutory_source,
+            "Status": self.status,
+            **self.metrics
+        }
+
+
+def generate_global_workforce_data(num_records: int = 2500, seed: Optional[int] = 42) -> pd.DataFrame:
     """
-    Synthesizes a cross-border corporate tracking dataset to test compliance 
-    against conflicting US, EU, and Japanese statutory risk thresholds.
+    Synthesizes complex, vectorized multinational corporate tracking datasets.
+    Optimized for simulating multi-jurisdictional compliance risk vectors.
     """
-    np.random.seed(42)
+    if seed is not None:
+        np.random.seed(seed)
+        
+    logger.info(f"Vectorizing synthetic dataset generation for {num_records} transaction records.")
     
     regions = ['US_East', 'US_NYC', 'EU_West', 'Japan_HQ']
     genders = ['Male', 'Female', 'Non-Binary']
@@ -25,141 +54,147 @@ def generate_global_workforce_data(num_records=2000):
         "Jurisdiction": np.random.choice(regions, size=num_records, p=[0.25, 0.25, 0.30, 0.20]),
         "Gender": np.random.choice(genders, size=num_records, p=[0.48, 0.48, 0.04]),
         "Ethnicity": np.random.choice(ethnicities, size=num_records, p=[0.60, 0.25, 0.15]),
-        
-        # Algorithmic Surveillance Input metrics
-        "Algorithmic_Tracking_Hours": np.random.normal(loc=42, scale=5, size=num_records),
-        "Uncompensated_Overtime_Hours": np.random.exponential(scale=4, size=num_records),
-        
-        # Binary flag representing an automated system selection choice (1 = Promoted/Retained, 0 = Terminated/Flagged)
+        "Algorithmic_Tracking_Hours": np.round(np.clip(np.random.normal(loc=42, scale=5, size=num_records), 0, None), 1),
+        "Uncompensated_Overtime_Hours": np.round(np.clip(np.random.exponential(scale=4, size=num_records), 0, None), 1),
         "Automated_Retention_Flag": np.random.binomial(n=1, p=0.72, size=num_records),
-        
-        # Operational check string for human integration
         "Human_In_The_Loop_Protocol": np.random.choice([True, False], size=num_records, p=[0.85, 0.15])
     }
     
-    df = pd.DataFrame(data)
-    # Clean up bounds
-    df["Algorithmic_Tracking_Hours"] = np.round(df["Algorithmic_Tracking_Hours"].clip(lower=0), 1)
-    df["Uncompensated_Overtime_Hours"] = np.round(df["Uncompensated_Overtime_Hours"].clip(lower=0), 1)
-    return df
+    return pd.DataFrame(data)
 
-# =====================================================================
-# 2. DETERMINISTIC GLOBAL STATUTORY AUDITING MATRIX
-# =====================================================================
-class GlobalComplianceAuditEngine:
-    def __init__(self, corporate_dataframe, global_annual_turnover_usd=500000000):
-        self.df = corporate_dataframe
-        self.turnover = global_annual_turnover_usd
-        self.audit_results = {}
 
-    def audit_us_eeoc_and_nyc_ll144(self):
-        """
-        Evaluates the Impact Ratio for adverse structural selection patterns.
-        Hardcodes the strict U.S. EEOC 4/5ths Rule threshold (0.80).
-        """
-        nyc_df = self.df[self.df["Jurisdiction"].isin(['US_East', 'US_NYC'])]
-        if nyc_df.empty:
-            return
-        
-        # Calculate impact metrics by ethnicity
-        selection_rates = nyc_df.groupby("Ethnicity")["Automated_Retention_Flag"].mean()
+class BaseAuditModule(ABC):
+    """Abstract base class establishing the contract for all modular regulatory plugins."""
+    @property
+    @abstractmethod
+    def rule_name(self) -> str:
+        pass
+
+    @property
+    @abstractmethod
+    def statutory_source(self) -> str:
+        pass
+
+    @abstractmethod
+    def evaluate(self, df: pd.DataFrame) -> Optional[AuditMetrics]:
+        pass
+
+
+class UsEeocModule(BaseAuditModule):
+    """Evaluates adverse systemic selection trends utilizing the strict U.S. EEOC 4/5ths Rule."""
+    @property
+    def rule_name(self) -> str:
+        return "US_EEOC_4_5ths_Rule"
+
+    @property
+    def statutory_source(self) -> str:
+        return "U.S. EEOC Uniform Guidelines & NYC Local Law 144"
+
+    def evaluate(self, df: pd.DataFrame) -> Optional[AuditMetrics]:
+        us_df = df[df["Jurisdiction"].isin(['US_East', 'US_NYC'])]
+        if us_df.empty:
+            return None
+
+        selection_rates = us_df.groupby("Ethnicity")["Automated_Retention_Flag"].mean()
         majority_rate = selection_rates.get('Majority_Group', 1.0)
         
-        eeoc_violation = False
-        impact_scores = {}
+        impact_scores: Dict[str, float] = {}
+        violation_detected = False
         
         for group, rate in selection_rates.items():
             if group == 'Majority_Group':
                 continue
-            # 4/5ths Rule: Impact Ratio = Selection Rate of Group / Selection Rate of Majority
-            ratio = rate / majority_rate if majority_rate > 0 else 0
-            impact_scores[group] = np.round(ratio, 4)
-            if ratio < 0.80: # Hardcoded statutory limit
-                eeoc_violation = True
-                
-        self.audit_results["US_EEOC_4_5ths_Rule"] = {
-            "Status": "NON-COMPLIANT (Adverse Impact Detected)" if eeoc_violation else "COMPLIANT",
-            "Impact_Ratios": impact_scores,
-            "Statutory_Source": "U.S. EEOC Uniform Guidelines & NYC Local Law 144"
-        }
+            ratio = float(rate / majority_rate if majority_rate > 0 else 0.0)
+            impact_scores[group] = round(ratio, 4)
+            if ratio < 0.80:
+                violation_detected = True
 
-    def audit_eu_ai_act(self):
-        """
-        Enforces strict compliance boundaries for automated high-risk systems.
-        Hardcodes financial penalties (€35M or 7% of global turnover) for missing human oversight flags.
-        """
-        eu_df = self.df[self.df["Jurisdiction"] == 'EU_West']
+        status = "NON-COMPLIANT (Adverse Impact Detected)" if violation_detected else "COMPLIANT"
+        return AuditMetrics(self.rule_name, self.statutory_source, status, {"Impact_Ratios": impact_scores})
+
+
+class EuAiActModule(BaseAuditModule):
+    """Enforces boundaries for autonomous systems according to the strict EU AI Act requirements."""
+    def __init__(self, annual_turnover: float):
+        self.annual_turnover = annual_turnover
+
+    @property
+    def rule_name(self) -> str:
+        return "EU_AI_Act_2024"
+
+    @property
+    def statutory_source(self) -> str:
+        return "European Union Artificial Intelligence Act (Chapter III - High-Risk Systems)"
+
+    def evaluate(self, df: pd.DataFrame) -> Optional[AuditMetrics]:
+        eu_df = df[df["Jurisdiction"] == 'EU_West']
         if eu_df.empty:
-            return
-            
-        # High-risk HR tracking tools require human validation
-        missing_oversight_count = eu_df[eu_df["Human_In_The_Loop_Protocol"] == False].shape[0]
-        
-        if missing_oversight_count > 0:
-            status = "NON-COMPLIANT (High-Risk System Violation)"
-            # Statutory Penalty calculation: Max of 35 Million EUR or 7% of global turnover
-            turnover_penalty = self.turnover * 0.07
-            potential_fine_usd = max(38000000, turnover_penalty) # Normalized currency base
-        else:
-            status = "COMPLIANT"
-            potential_fine_usd = 0.0
-            
-        self.audit_results["EU_AI_Act_2024"] = {
-            "Status": status,
-            "Unmanaged_Autonomous_Records": missing_oversight_count,
-            "Maximum_Statutory_Liability_USD": np.round(potential_fine_usd, 2),
-            "Statutory_Source": "European Union Artificial Intelligence Act (Chapter III - High-Risk Systems)"
-        }
+            return None
 
-    def audit_japan_meti_society_5_0(self):
-        """
-        Audits digital labor extraction using the custom Temporal Sustainability Index (TSI).
-        Flags structural workforce instability if system monitoring causes systematic personal time loss.
-        """
-        jp_df = self.df[self.df["Jurisdiction"] == 'Japan_HQ']
+        missing_oversight = int(eu_df[eu_df["Human_In_The_Loop_Protocol"] == False].shape[0])
+        potential_fine = 0.0
+        status = "COMPLIANT"
+
+        if missing_oversight > 0:
+            status = "NON-COMPLIANT (High-Risk System Violation)"
+            turnover_penalty = self.annual_turnover * 0.07
+            potential_fine = round(max(38000000.0, turnover_penalty), 2)
+
+        return AuditMetrics(
+            self.rule_name, self.statutory_source, status,
+            {"Unmanaged_Autonomous_Records": missing_oversight, "Maximum_Statutory_Liability_USD": potential_fine}
+        )
+
+
+class JapanMetiModule(BaseAuditModule):
+    """Audits workplace optimization using Japan's METI Temporal Sustainability Index."""
+    @property
+    def rule_name(self) -> str:
+        return "Japan_METI_Society_5_0"
+
+    @property
+    def statutory_source(self) -> str:
+        return "Japan METI Governance Guidelines for AI in Society 5.0"
+
+    def evaluate(self, df: pd.DataFrame) -> Optional[AuditMetrics]:
+        jp_df = df[df["Jurisdiction"] == 'Japan_HQ']
         if jp_df.empty:
-            return
-            
-        # Custom Equation logic: TSI = Funded Hours / (Funded Hours + Extracted Uncompensated Hours)
+            return None
+
         avg_tracking = jp_df["Algorithmic_Tracking_Hours"].mean()
         avg_overtime = jp_df["Uncompensated_Overtime_Hours"].mean()
         
-        tsi_score = avg_tracking / (avg_tracking + avg_overtime)
-        
-        # Stability threshold set to 0.90 to preserve workforce harmony
-        status = "COMPLIANT" if tsi_score >= 0.90 else "NON-COMPLIANT (Workforce Precarity / Life-Stall Risk)"
-        
-        self.audit_results["Japan_METI_Society_5_0"] = {
-            "Status": status,
-            "Temporal_Sustainability_Index": np.round(tsi_score, 4),
-            "Statutory_Source": "Japan METI Governance Guidelines for AI in Society 5.0"
-        }
+        tsi_score = float(avg_tracking / (avg_tracking + avg_overtime) if (avg_tracking + avg_overtime) > 0 else 0.0)
+        status = "COMPLIANT" if tsi_score >= 0.90 else "NON-COMPLIANT (Workforce Precarity Risk)"
 
-    def execute_complete_audit(self):
-        self.audit_us_eeoc_and_nyc_ll144()
-        self.audit_eu_ai_act()
-        self.audit_japan_meti_society_5_0()
-        return self.audit_results
+        return AuditMetrics(
+            self.rule_name, self.statutory_source, status,
+            {"Temporal_Sustainability_Index": round(tsi_score, 4)}
+        )
 
-# =====================================================================
-# 3. INTERACTIVE VALIDATION INTERFACE
-# =====================================================================
-if __name__ == "__main__":
-    print("Initiating Global Sustainable Policy Analytics Verification Pipeline...\n")
-    
-    # Step 1: Synthesize multinational workspace dataset
-    global_enterprise_data = generate_global_workforce_data(num_records=2500)
-    
-    # Step 2: Initialize engine with corporate metrics ($500M Global Turnover)
-    engine = GlobalComplianceAuditEngine(global_enterprise_data, global_annual_turnover_usd=500000000)
-    audit_report = engine.execute_complete_audit()
-    
-    # Step 3: Print out deterministic statutory scorecards
-    for program, details in audit_report.items():
-        print(f"--- PROTOCOL: {program} ---")
-        print(f"Source Law: {details['Statutory_Source']}")
-        print(f"Audit Status: {details['Status']}")
-        for key, val in details.items():
-            if key not in ['Statutory_Source', 'Status']:
-                print(f"Metric - {key}: {val}")
-        print("\n")
+
+class GlobalComplianceAuditEngine:
+    """Core Orchestrator driving modular corporate policy audit pipelines."""
+    def __init__(self, corporate_dataframe: pd.DataFrame, global_annual_turnover_usd: float = 500000000.0):
+        self._df = corporate_dataframe
+        self._modules: List[BaseAuditModule] = [
+            UsEeocModule(),
+            EuAiActModule(global_annual_turnover_usd),
+            JapanMetiModule()
+        ]
+
+    def execute_complete_audit(self) -> Dict[str, Dict[str, Any]]:
+        """Executes metrics calculations across all registered compliance plugins."""
+        logger.info("Initiating dynamic multi-jurisdictional compliance processing pipeline...")
+        master_report: Dict[str, Dict[str, Any]] = {}
+        
+        for module in self._modules:
+            try:
+                result = module.evaluate(self._df)
+                if result:
+                    master_report[module.rule_name] = result.to_dict()
+            except Exception as e:
+                logger.error(f"Execution failure inside compliance plugin {module.rule_name}: {str(e)}")
+                
+        logger.info("Compliance processing pipeline complete.")
+        return master_report
